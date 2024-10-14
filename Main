@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moon Key System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1a1a2e;
+            color: #fff;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #222;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            width: 300px;
+        }
+        h1 {
+            color: #9a55ff;
+        }
+        .step-button {
+            background-color: #9a55ff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            margin-top: 15px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .step-button:disabled {
+            background-color: #555;
+            cursor: not-allowed;
+        }
+        .key-output {
+            margin-top: 20px;
+            display: none;
+        }
+        .key-output p {
+            font-size: 18px;
+            background-color: #333;
+            padding: 10px;
+            border-radius: 5px;
+            color: #9a55ff;
+            word-break: break-all;
+        }
+        .timer {
+            font-size: 14px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Moon Key System</h1>
+        <p>Clique para iniciar a tarefa do Lootdest. A chave será exibida após 30 segundos.</p>
+        <button id="stepButton" class="step-button">Iniciar Tarefa</button>
+        <div class="timer" id="timer">30 segundos restantes...</div>
+        <div id="keyOutput" class="key-output">
+            <p id="keyText">Aqui está sua chave: MOON-KEY-12345</p>
+        </div>
+    </div>
+
+    <script>
+        const stepButton = document.getElementById('stepButton');
+        const keyOutput = document.getElementById('keyOutput');
+        const timer = document.getElementById('timer');
+        let countdown = 30;
+        let interval;
+
+        stepButton.addEventListener('click', () => {
+            stepButton.disabled = true;
+            timer.style.display = 'block';
+
+            // Update the timer every second
+            interval = setInterval(() => {
+                countdown--;
+                timer.textContent = `${countdown} segundos restantes...`;
+
+                if (countdown <= 0) {
+                    clearInterval(interval);
+                    timer.style.display = 'none';
+                    keyOutput.style.display = 'block';
+                }
+            }, 1000);
+            
+            // Redirect to the lootdest link
+            window.location.href = "https://lootdest.org/s?76e3c444";
+        });
+
+        // Anti-bypass by preventing key access without countdown
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                clearInterval(interval);
+                countdown = 30;
+                timer.textContent = "30 segundos restantes...";
+                stepButton.disabled = false;
+                keyOutput.style.display = 'none';
+                timer.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
